@@ -1,6 +1,9 @@
 
 
 
+
+
+
 import java.net.*;
 import java.io.*;
 
@@ -8,7 +11,7 @@ public class LowPortScanner {
 
     public static void main(String [] args) {
 
-        String host = args.length > 0 ? args[0] : "localhost";
+        String host = "localhost";
 
         for (int i=1 ; i< 1024; i++){
             try {

@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 
 public class DayTimeClient {
-    public static final String SERVER = "time.nist.gov";
+    public static final String SERVER = "time-a.nist.gov";
     public static final int PORT = 13;
     public static final int TIMEOUT = 15000;
 

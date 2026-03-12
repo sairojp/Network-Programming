@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class SocketInfo {
-    public static final String SERVER = "time.nist.gov";
+    public static final String SERVER = "time-a.nist.gov";
     public static final int PORT = 13;
 
     public static void main(String[] args) {

@@ -94,3 +94,304 @@ public class NoRouteToHostException extends SocketException
 
 public class ProtocolException extends IOException
 
+
+
+
+
+
+
+
+
+
+
+ServerSocket server = new ServerSocket(8080);
+
+
+
+Socket connection = server.accept();
+
+
+
+OutputStream out = connection.getOutputStream();
+Writer writer = new OutputStreamWriter(writer, "ASCII");
+
+
+Date now = new Date();
+out.write(now.toString() +"\r\n");
+
+
+
+out.flush();
+connection.close();
+
+
+
+
+while (true) {
+    try (Socket connection = server.accept()) {
+        Writer out = new OutputStreamWriter(connection.getOutputStream());
+        Date now = new Date();
+        out.write(now.toString() +"\r\n");
+        out.flush();
+    } catch (IOException ex) {
+        System.err.println(ex);
+    }
+}
+
+
+
+
+ServerSocket server = null;
+try {
+    server = new ServerSocket(port);
+    // ... work with the server socket
+} finally {
+    if (server != null) {
+        try {
+            server.close();
+        } catch (IOException ex) {
+            // ignore
+        }
+    }
+}
+
+
+
+
+ServerSocket server = new ServerSocket();
+try {
+    SocketAddress address = new InetSocketAddress(port);
+    server.bind(address);
+    // ... work with the server socket
+} finally {
+    try {
+        server.close();
+    } catch (IOException ex) {
+        // ignore
+    }
+}
+
+
+
+public boolean isClosed()
+
+
+public boolean isBound()
+
+
+public static boolean isOpen(ServerSocket ss) {
+    return ss.isBound() && !ss.isClosed();
+}
+
+
+
+private final static Logger auditLogger = Logger.getLogger("requests");
+
+
+
+catch (RuntimeException ex) {
+    logger.log(Level.SEVERE, "unexpected error " + ex.getMessage(), ex);
+}
+
+
+public ServerSocket(int port) throws BindException, IOException
+public ServerSocket(int port, int queueLength) throws BindException, IOException
+public ServerSocket(int port, int queueLength, InetAddress bindAddress)throws IOException
+public ServerSocket() throws IOException
+
+ServerSocket httpd = new ServerSocket(80);
+
+
+ServerSocket httpd = new ServerSocket(80, 50);
+
+
+InetAddress local = InetAddress.getByName("192.168.210.122");
+ServerSocket httpd = new ServerSocket(5776, 10, local);
+
+
+
+public void bind(SocketAddress endpoint) throws IOException
+public void bind(SocketAddress endpoint, int queueLength) throws IOException
+
+
+ServerSocket s = new ServerSocket();
+// set socket options...
+SocketAddress http = new InetSocketAddress(80);
+s.bind(http);
+
+public InetAddress getInetAddress()
+
+
+ServerSocket httpd = new ServerSocket(80);
+InetAddress ia = httpd.getInetAddress();
+
+
+public int getLocalPort()
+
+
+
+public void setSoTimeout(int timeout) throws SocketException
+public int getSoTimeout() throws IOException
+
+
+try (ServerSocket server = new ServerSocket(port)) {
+    server.setSoTimeout(30000); // block for no more than 30 seconds
+    try {
+        Socket s = server.accept();
+        // handle the connection
+        // ...
+    } catch (SocketTimeoutException ex) {
+        System.err.println("No connection within 30 seconds");
+    }
+} catch (IOException ex) {
+    System.err.println("Unexpected IOException: " + e);
+}
+
+
+
+public void printSoTimeout(ServerSocket server) {
+    int timeout = server.getSoTimeOut();
+    if (timeout > 0) {
+        System.out.println(server + " will time out after " + timeout + "milliseconds.");
+    } else if (timeout == 0) {
+        System.out.println(server + " will never time out.");
+    } else {
+        System.out.println("Impossible condition occurred in " + server);
+        System.out.println("Timeout cannot be less than zero." );
+    }
+}
+
+
+
+public boolean getReuseAddress() throws SocketException
+public void setReuseAddress(boolean on) throws SocketException
+
+
+
+ServerSocket s = new ServerSocket(10240);
+System.out.println("Reusable: " + s.getReuseAddress());
+
+
+public int getReceiveBufferSize() throws SocketException
+public void setReceiveBufferSize(int size) throws SocketException
+
+
+
+ServerSocket s = new ServerSocket();
+int receiveBufferSize = s.getReceiveBufferSize();
+if (receiveBufferSize < 131072) {
+ s.setReceiveBufferSize(131072);
+}
+s.bind(new InetSocketAddress(8000));
+
+
+
+
+
+
+public void setPerformancePreferences(int connectionTime, int latency, int bandwidth)
+
+
+s.setPerformancePreferences(2, 1, 3);
+
+
+
+
+SocketFactory factory = SSLSocketFactory.getDefault();
+Socket socket = factory.createSocket("www.example.org", 7000);
+
+
+public abstract Socket createSocket(String host, int port) throws IOException, UnknownHostException
+public abstract Socket createSocket(InetAddress host, int port) throws IOException
+public abstract Socket createSocket(String host, int port, InetAddress interface, int localPort) throws IOException, UnknownHostException
+public abstract Socket createSocket(InetAddress host, int port, InetAddress interface, int localPort) throws IOException , UnknownHostException
+public abstract Socket createSocket(Socket proxy, String host, int port, boolean autoClose) throws IOException
+
+
+public abstract String[] getSupportedCipherSuites()
+
+
+public abstract void setEnabledCipherSuites(String[] suites)
+
+
+public interface HandshakeCompletedListener extends java.util.EventListener
+
+
+public void handshakeCompleted(HandshakeCompletedEvent event)
+
+public class HandshakeCompletedEvent extends java.util.EventObject
+
+
+public SSLSession getSession()
+public String getCipherSuite()
+public X509Certificate[] getPeerCertificateChain() throws SSLPeerUnverifiedException
+public SSLSocket getSocket()
+
+public abstract void addHandshakeCompletedListener(HandshakeCompletedListener listener)
+public abstract void removeHandshakeCompletedListener(HandshakeCompletedListener listener) throws IllegalArgumentException
+
+
+public byte[] getId()
+public SSLSessionContext getSessionContext()
+public long getCreationTime()
+public long getLastAccessedTime()
+public void invalidate()
+public void putValue(String name, Object value)
+public Object getValue(String name)
+public void removeValue(String name)
+public String[] getValueNames()
+public X509Certificate[] getPeerCertificateChain() throws SSLPeerUnverifiedException
+public String getCipherSuite()
+public String getPeerHost()
+
+
+public abstract SSLSession getSession()
+
+public abstract void setEnableSessionCreation(boolean allowSessions)
+
+public abstract void startHandshake() throws IOException
+
+public abstract void setUseClientMode(boolean mode) throws IllegalArgumentException
+
+public abstract boolean getUseClientMode()
+public abstract void setNeedClientAuth(boolean needsAuthentication) throws IllegalArgumentException
+
+public abstract boolean getNeedClientAuth()
+
+public abstract class SSLServerSocket extends ServerSocket
+
+public abstract class SSLServerSocketFactory extends ServerSocketFactory
+
+public static ServerSocketFactory getDefault()
+public abstract ServerSocket createServerSocket(int port) throws IOException
+public abstract ServerSocket createServerSocket(int port, int queueLength) throws IOException
+public abstract ServerSocket createServerSocket(int port, int queueLength, InetAddress interface) throws IOException
+
+
+public abstract String[] getSupportedCipherSuites()
+public abstract String[] getEnabledCipherSuites()
+public abstract void setEnabledCipherSuites(String[] suites)
+
+String[] supported = server.getSupportedCipherSuites();
+String[] anonCipherSuitesSupported = new String[supported.length];
+int numAnonCipherSuitesSupported = 0;
+for (int i = 0; i < supported.length; i++) {
+    if (supported[i].indexOf("_anon_") > 0) {
+        anonCipherSuitesSupported[numAnonCipherSuitesSupported++]= supported[i];
+    }
+}
+String[] oldEnabled = server.getEnabledCipherSuites();
+String[] newEnabled = new String[oldEnabled.length+ numAnonCipherSuitesSupported];
+System.arraycopy(oldEnabled, 0, newEnabled, 0, oldEnabled.length);
+System.arraycopy(anonCipherSuitesSupported, 0, newEnabled, oldEnabled.length, numAnonCipherSuitesSupported);
+server.setEnabledCipherSuites(newEnabled);
+
+
+public abstract void setEnableSessionCreation(boolean allowSessions)
+public abstract boolean getEnableSessionCreation()
+
+public abstract void setNeedClientAuth(boolean flag)
+public abstract boolean getNeedClientAuth()
+
+public abstract void setUseClientMode(boolean flag)
+public abstract boolean getUseClientMode()
